@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dealide Onboarding</title>
+  <!-- Belmonte Font Integration -->
+  <link href="https://fonts.googleapis.com/css2?family=Belmonte&display=swap" rel="stylesheet">
+  <!-- Fallback Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@500&family=Raleway:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Variables for Theming */
+    :root {
+      --primary-color: #0070B5; /* Updated primary blue color */
+      --secondary-color: #92fe9d;
+      --background-color: #FFFAF8; /* Updated background color */
+      --overlay-background: rgba(255, 250, 248, 0.95); /* Slightly transparent for suitcases visibility */
+      --text-color: #000000; /* Changed from white to black */
+      --button-text-color: #ffffff; /* White text for the button */
+      --card-bg: #ffffff;
+      --card-text: #333333;
+      --font-belmonte: 'Belmonte', sans-serif;
+    }
+
+    /* Basic Reset and Styling */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--background-color); /* Updated background color */
+      height: 100vh;
+      overflow: hidden; /* Prevent background scrolling */
+      position: relative;
+    }
+
+    /* Onboarding Screen Styling */
+    #onboardingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--overlay-background); /* Slightly transparent background */
+      color: var(--text-color); /* Updated to black text */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      overflow: auto; /* Allow scrolling on smaller screens */
+      padding: 20px; /* Added padding for better spacing */
+      box-sizing: border-box;
+      border-radius: 10px; /* Rounded corners for a modern look */
+      position: relative; /* For positioning animated suitcases */
+    }
+
+    /* Animated Suitcases Background */
+    .animated-suitcases {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* Allow interactions through suitcases */
+      overflow: hidden;
+      z-index: 1; /* Positioned behind content */
+    }
+
+    .suitcase {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-image: url('https://img.icons8.com/ios-filled/50/0070B5/suitcase.png'); /* Updated to blue suitcases */
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.7;
+      animation: fly 20s linear infinite;
+    }
+
+    /* Define multiple suitcases with different animations */
+    .suitcase:nth-child(1) {
+      top: 10%;
+      left: -10%;
+      animation-duration: 25s;
+      animation-delay: 0s;
+    }
+
+    .suitcase:nth-child(2) {
+      top: 40%;
+      left: -15%;
+      animation-duration: 20s;
+      animation-delay: 5s;
+      transform: scale(0.8);
+    }
+
+    .suitcase:nth-child(3) {
+      top: 70%;
+      left: -20%;
+      animation-duration: 22s;
+      animation-delay: 10s;
+      transform: scale(1.2);
+    }
+
+    .suitcase:nth-child(4) {
+      top: 20%;
+      left: -25%;
+      animation-duration: 24s;
+      animation-delay: 2s;
+      transform: scale(0.9);
+    }
+
+    .suitcase:nth-child(5) {
+      top: 60%;
+      left: -18%;
+      animation-duration: 23s;
+      animation-delay: 7s;
+      transform: scale(1.1);
+    }
+
+    @keyframes fly {
+      0% {
+        transform: translateX(0) rotate(0deg);
+        opacity: 0.7;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(110vw) rotate(360deg);
+        opacity: 0.7;
+      }
+    }
+
+    /* Branding - Belmonte Font for Header */
+    #onboardingScreen h2 {
+      font-family: var(--font-belmonte), 'Raleway', sans-serif;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      text-transform: uppercase;
+      text-shadow: 0 0 10px var(--primary-color);
+      animation: fadeInDown 1s ease;
+      text-align: center;
+    }
+
+    /* Fade-in Animation for Header */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Paragraph Styling */
+    #onboardingScreen p {
+      font-size: 1.2em;
+      text-align: center;
+      max-width: 80%;
+      line-height: 1.6;
+      color: #333333; /* Changed to darker color */
+      margin-bottom: 30px;
+      animation: fadeInUp 1s ease;
+    }
+
+    /* Fade-in Animation for Paragraph */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Close Button Styling */
+    #closeButton {
+      margin-top: 20px;
+      padding: 15px 40px;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      border: none;
+      border-radius: 50px;
+      color: var(--button-text-color); /* White text for the button */
+      font-size: 1em;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 0 15px rgba(0, 112, 181, 0.5); /* Updated shadow color to match new blue */
+      animation: pulse 2s infinite;
+    }
+
+    /* Pulse Animation for Button */
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 15px rgba(0, 112, 181, 0.5);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(0, 112, 181, 1);
+      }
+      100% {
+        box-shadow: 0 0 15px rgba(0, 112, 181, 0.5);
+      }
+    }
+
+    #closeButton:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0, 112, 181, 1); /* Updated shadow color to match new blue */
+    }
+
+    /* Language Selector Styling */
+    #languageSelector {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 8px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      font-size: 0.9em;
+      cursor: pointer;
+      font-family: 'Roboto', sans-serif;
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    #languageSelector:hover {
+      background-color: #f0f0f0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    #languageSelector option {
+      color: #000;
+    }
+
+    /* Phone Simulation Container */
+    #phoneSimulation {
+      width: 320px;
+      height: 650px;
+      background: #ffffff; /* Changed to white for better contrast */
+      border: 2px solid #ccc;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0, 112, 181, 0.3); /* Updated shadow color to match new blue */
+      margin-top: 30px;
+      animation: slideIn 1s ease;
+    }
+
+    /* Slide-in Animation for Phone Simulation */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Swipe Card Styling */
+    .swipeCard {
+      position: absolute;
+      width: 80%;
+      height: 60%;
+      background: var(--card-bg);
+      top: 20%;
+      left: 10%;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Roboto', sans-serif;
+      font-weight: bold;
+      color: var(--card-text);
+      transition: transform 1s ease, opacity 1s ease;
+      opacity: 0;
+    }
+
+    /* Direction Arrow Container */
+    .directionArrow {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 50px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: 2; /* Ensure it's above suitcases */
+    }
+
+    /* Inline SVG Arrow Styling */
+    .directionArrow svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--primary-color); /* Changed to primary color for visibility */
+      filter: drop-shadow(0 0 10px var(--primary-color));
+      transition: transform 0.5s ease;
+      transform-origin: center center; /* Ensure rotation around center */
+    }
+
+    /* Rotation Classes */
+    .arrow-right {
+      transform: rotate(90deg);
+    }
+
+    .arrow-left {
+      transform: rotate(-90deg);
+    }
+
+    .arrow-up {
+      transform: rotate(0deg);
+    }
+
+    /* Optional: For future use if needed */
+    .arrow-down {
+      transform: rotate(180deg);
+    }
+
+    /* Swipe Feedback Styling */
+    .swipeFeedback {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2em;
+      color: var(--primary-color);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      text-shadow: 0 0 10px var(--primary-color);
+      z-index: 2; /* Ensure it's above suitcases */
+    }
+
+    /* Highlight Social Proof */
+    .social-proof {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: var(--primary-color);
+      animation: fadeIn 1s ease;
+      text-shadow: 0 0 5px var(--primary-color);
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      #phoneSimulation {
+        width: 280px;
+        height: 600px;
+      }
+
+      #onboardingScreen h2 {
+        font-size: 2em;
+      }
+
+      #onboardingScreen p {
+        font-size: 1em;
+      }
+
+      .suitcase {
+        width: 30px;
+        height: 30px;
+      }
+
+      .directionArrow {
+        width: 40px;
+        height: 40px;
+      }
+
+      .swipeFeedback {
+        font-size: 1.5em;
+      }
+
+      /* Adjust social proof font size */
+      .social-proof {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="onboardingScreen" aria-labelledby="onboardingTitle" role="dialog" aria-modal="true">
+    <!-- Animated Suitcases Background -->
+    <div class="animated-suitcases">
+      <div class="suitcase"></div>
+      <div class="suitcase"></div>
+      <div class="suitcase"></div>
+      <div class="suitcase"></div>
+      <div class="suitcase"></div>
+    </div>
+
+    <!-- Language Selector -->
+    <select id="languageSelector" aria-label="Select Language">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option> <!-- Added French -->
+      <option value="zh">中文</option>
+      <option value="hi">हिन्दी</option>
+      <option value="ar">العربية</option>
+      <option value="bn">বাংলা</option>
+      <option value="pt">Português</option>
+      <option value="ru">Русский</option>
+      <option value="ja">日本語</option>
+      <option value="de">Deutsch</option>
+    </select>
+
+    <!-- Header Removed: Dealide Logo -->
+
+    <h2 id="onboardingTitle">Welcome to Dealide</h2>
+    <p id="onboardingDescription">Swipe right to approve a project or investor that interests you, swipe left to decline if it’s not a fit, and swipe up to use a Swipe Deal for enhanced visibility or priority matching. Let's make your journey seamless and exciting!</p>
+    
+    <!-- Phone Simulation Container -->
+    <div id="phoneSimulation">
+      <!-- Swipe Cards -->
+      <div class="swipeCard" id="swipeCard1" style="background: #0070B5;">Swipe Right</div>
+      <div class="swipeCard" id="swipeCard2" style="background: #ff6b6b;">Swipe Left</div>
+      <div class="swipeCard" id="swipeCard3" style="background: #ffd700;">Swipe Up</div>
+      
+      <!-- Direction Arrow -->
+      <div class="directionArrow" id="directionArrow">
+        <!-- Inline SVG Arrow Pointing Upwards by Default -->
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2L5 19H19L12 2z"/>
+        </svg>
+      </div>
+
+      <!-- Swipe Feedback -->
+      <div class="swipeFeedback" id="swipeFeedback"></div>
+    </div>
+
+    <!-- Social Proof Highlight -->
+    <div class="social-proof" id="socialProof">Over 5000 members already!</div>
+
+    <!-- Clear Call-to-Action Button -->
+    <button id="closeButton" aria-label="Start Exploring">Start Exploring</button>
+  </div>
+
+  <script>
+    // Translations Object
+    const translations = {
+      en: {
+        title: "Welcome to Dealide",
+        description: "Swipe right to approve a project or investor that interests you, swipe left to decline if it’s not a fit, and swipe up to use a Swipe Deal for enhanced visibility or priority matching. Let's make your journey seamless and exciting!",
+        socialProof: "Over 5000 members already!"
+      },
+      es: {
+        title: "Bienvenido a Dealide",
+        description: "Desliza a la derecha para aprobar un proyecto o inversionista que te interese, desliza a la izquierda para rechazar si no encaja, y desliza hacia arriba para usar un Swipe Deal para mayor visibilidad o coincidencia prioritaria. ¡Hagamos que tu viaje sea fluido y emocionante!",
+        socialProof: "¡Más de 5000 miembros ya!"
+      },
+      fr: { // Added French
+        title: "Bienvenue sur Dealide",
+        description: "Faites glisser vers la droite pour approuver un projet ou un investisseur qui vous intéresse, faites glisser vers la gauche pour décliner si cela ne convient pas, et faites glisser vers le haut pour utiliser un Swipe Deal pour une meilleure visibilité ou un appariement prioritaire. Rendons votre parcours fluide et excitant !",
+        socialProof: "Plus de 5000 membres déjà !"
+      },
+      zh: {
+        title: "欢迎来到Dealide",
+        description: "向右滑动以批准您感兴趣的项目或投资者，向左滑动以拒绝不合适的项目，向上滑动以使用Swipe Deal提升可见度或优先匹配。让我们让您的旅程无缝且令人兴奋！",
+        socialProof: "已有超过5000名成员！"
+      },
+      hi: {
+        title: "डीलाइड में आपका स्वागत है",
+        description: "आपकी रुचि वाले प्रोजेक्ट या निवेशक को मंजूरी देने के लिए दाएं स्वाइप करें, अगर यह फिट नहीं है तो बाएं स्वाइप करें, और बढ़ी हुई दृश्यता या प्राथमिकता मिलान के लिए स्वाइप डील का उपयोग करने के लिए ऊपर स्वाइप करें। आइए आपकी यात्रा को सहज और रोमांचक बनाएं!",
+        socialProof: "पहले से ही 5000 से अधिक सदस्य!"
+      },
+      ar: {
+        title: "مرحبًا بكم في Dealide",
+        description: "اسحب لليمين للموافقة على مشروع أو مستثمر يهمك، اسحب لليسار للرفض إذا لم يكن مناسبًا، واسحب لأعلى لاستخدام Swipe Deal لزيادة الرؤية أو المطابقة ذات الأولوية. دعونا نجعل رحلتك سلسة ومثيرة!",
+        socialProof: "أكثر من 5000 عضو بالفعل!"
+      },
+      bn: {
+        title: "Dealide এ স্বাগতম",
+        description: "আপনার আগ্রহের প্রকল্প বা বিনিয়োগকারী অনুমোদন করতে ডানদিকে সোয়াইপ করুন, যদি এটি উপযুক্ত না হয় তবে বামদিকে সোয়াইপ করুন, এবং উন্নত দৃশ্যমানতা বা অগ্রাধিকার মেলানোর জন্য Swipe Deal ব্যবহার করতে উপরে সোয়াইপ করুন। আসুন আপনার যাত্রাকে নির্বিঘ্ন এবং রোমাঞ্চকর করি!",
+        socialProof: "আগেই 5000 সদস্য!"
+      },
+      pt: {
+        title: "Bem-vindo ao Dealide",
+        description: "Deslize para a direita para aprovar um projeto ou investidor que te interesse, deslize para a esquerda para recusar se não for adequado, e deslize para cima para usar um Swipe Deal para maior visibilidade ou correspondência prioritária. Vamos tornar sua jornada tranquila e emocionante!",
+        socialProof: "Mais de 5000 membros já!"
+      },
+      ru: {
+        title: "Добро пожаловать в Dealide",
+        description: "Проведите вправо, чтобы одобрить проект или инвестора, который вас заинтересовал, проведите влево, чтобы отклонить, если это не подходит, и проведите вверх, чтобы использовать Swipe Deal для повышения видимости или приоритетного подбора. Давайте сделаем ваше путешествие беспрепятственным и захватывающим!",
+        socialProof: "Уже более 5000 участников!"
+      },
+      ja: {
+        title: "Dealideへようこそ",
+        description: "興味のあるプロジェクトや投資家を承認するために右にスワイプし、適合しない場合は左にスワイプし、視認性や優先マッチングを向上させるために上にスワイプしてSwipe Dealを使用します。あなたの旅をシームレスでエキサイティングなものにしましょう！",
+        socialProof: "すでに5000人以上のメンバーが参加しています！"
+      },
+      de: {
+        title: "Willkommen bei Dealide",
+        description: "Wischen Sie nach rechts, um ein Projekt oder einen Investor zu genehmigen, der Sie interessiert, nach links, um abzulehnen, wenn es nicht passt, und nach oben, um einen Swipe Deal für erhöhte Sichtbarkeit oder Prioritätszuweisung zu verwenden. Lassen Sie uns Ihre Reise nahtlos und aufregend gestalten!",
+        socialProof: "Bereits über 5000 Mitglieder!"
+      }
+    };
+
+    // Default Language
+    let currentLanguage = 'en';
+
+    // Elements to Translate
+    const onboardingTitle = document.getElementById('onboardingTitle');
+    const onboardingDescription = document.getElementById('onboardingDescription');
+    const socialProof = document.getElementById('socialProof');
+
+    // Language Selector Functionality
+    const languageSelector = document.getElementById('languageSelector');
+
+    languageSelector.addEventListener('change', function(e) {
+      const selectedLang = e.target.value;
+      if (translations[selectedLang]) {
+        currentLanguage = selectedLang;
+        updateTranslations();
+      }
+    });
+
+    function updateTranslations() {
+      onboardingTitle.textContent = translations[currentLanguage].title;
+      onboardingDescription.textContent = translations[currentLanguage].description;
+      socialProof.textContent = translations[currentLanguage].socialProof;
+    }
+
+    // Swipe Animation Logic
+    const swipeCards = document.querySelectorAll('.swipeCard');
+    const directionArrow = document.getElementById('directionArrow');
+    const arrowSvg = directionArrow.querySelector('svg'); // Select the SVG element
+    const swipeFeedback = document.getElementById('swipeFeedback');
+    let index = 0;
+    const totalSteps = swipeCards.length; // Only swipe cards
+
+    // Function to Reset Cards and Arrow
+    function resetCards() {
+      swipeCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translate(0, 0)';
+        card.classList.remove('active');
+      });
+      swipeFeedback.style.opacity = '0';
+      directionArrow.style.opacity = '0';
+      
+      // Remove any existing rotation classes
+      arrowSvg.classList.remove('arrow-right', 'arrow-left', 'arrow-up', 'arrow-down');
+    }
+
+    // Function to Animate Swipe
+    function animateSwipe() {
+      resetCards();
+
+      if (index >= totalSteps) {
+        index = 0;
+      }
+
+      const currentCard = swipeCards[index];
+      currentCard.style.opacity = '1';
+      currentCard.classList.add('active');
+      swipeFeedback.style.opacity = '0';
+      directionArrow.style.opacity = '1'; // Show the arrow
+
+      switch (currentCard.textContent.trim()) {
+        case 'Swipe Right':
+          currentCard.style.transform = 'translateX(100%)';
+          arrowSvg.classList.add('arrow-right');
+          setTimeout(() => {
+            swipeFeedback.textContent = getTranslation('Approved');
+            swipeFeedback.style.opacity = '1';
+          }, 1000);
+          break;
+        case 'Swipe Left':
+          currentCard.style.transform = 'translateX(-100%)';
+          arrowSvg.classList.add('arrow-left');
+          setTimeout(() => {
+            swipeFeedback.textContent = getTranslation('Declined');
+            swipeFeedback.style.opacity = '1';
+          }, 1000);
+          break;
+        case 'Swipe Up':
+          currentCard.style.transform = 'translateY(-100%)';
+          arrowSvg.classList.add('arrow-up');
+          setTimeout(() => {
+            swipeFeedback.textContent = getTranslation('Profile Boost');
+            swipeFeedback.style.opacity = '1';
+          }, 1000);
+          break;
+        default:
+          break;
+      }
+
+      // Hide the arrow after 1.5 seconds
+      setTimeout(() => {
+        directionArrow.style.opacity = '0';
+        index++;
+      }, 1500);
+
+      // Schedule the next swipe animation after 3 seconds
+      setTimeout(animateSwipe, 3000);
+    }
+
+    // Start the swipe animation after 1.5 seconds
+    setTimeout(animateSwipe, 1500);
+
+    // Accessibility: Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        swipeRight();
+      } else if (e.key === 'ArrowLeft') {
+        swipeLeft();
+      } else if (e.key === 'ArrowUp') {
+        swipeUp();
+      }
+    });
+
+    function swipeRight() {
+      performSwipeAction('Swipe Right');
+    }
+
+    function swipeLeft() {
+      performSwipeAction('Swipe Left');
+    }
+
+    function swipeUp() {
+      performSwipeAction('Swipe Up');
+    }
+
+    function performSwipeAction(action) {
+      // Find the corresponding swipe card
+      const currentCard = Array.from(swipeCards).find(card => card.textContent.trim() === action);
+      if (currentCard) {
+        resetCards();
+        currentCard.style.opacity = '1';
+        currentCard.classList.add('active');
+        directionArrow.style.opacity = '1';
+        
+        switch (action) {
+          case 'Swipe Right':
+            currentCard.style.transform = 'translateX(100%)';
+            arrowSvg.classList.add('arrow-right');
+            swipeFeedback.textContent = getTranslation('Approved');
+            swipeFeedback.style.opacity = '1';
+            break;
+          case 'Swipe Left':
+            currentCard.style.transform = 'translateX(-100%)';
+            arrowSvg.classList.add('arrow-left');
+            swipeFeedback.textContent = getTranslation('Declined');
+            swipeFeedback.style.opacity = '1';
+            break;
+          case 'Swipe Up':
+            currentCard.style.transform = 'translateY(-100%)';
+            arrowSvg.classList.add('arrow-up');
+            swipeFeedback.textContent = getTranslation('Profile Boost');
+            swipeFeedback.style.opacity = '1';
+            break;
+          default:
+            break;
+        }
+
+        // Hide the arrow after 1.5 seconds
+        setTimeout(() => {
+          directionArrow.style.opacity = '0';
+          index++;
+          animateSwipe();
+        }, 1500);
+      }
+    }
+
+    // Function to Get Translated Text
+    function getTranslation(key) {
+      const translationMap = {
+        'Approved': {
+          en: 'Approved',
+          es: 'Aprobado',
+          fr: 'Approuvé', // French translation
+          zh: '批准',
+          hi: 'स्वीकृत',
+          ar: 'تمت الموافقة',
+          bn: 'অনুমোদিত',
+          pt: 'Aprovado',
+          ru: 'Одобрено',
+          ja: '承認済み',
+          de: 'Genehmigt'
+        },
+        'Declined': {
+          en: 'Declined',
+          es: 'Rechazado',
+          fr: 'Décliné', // French translation
+          zh: '拒绝',
+          hi: 'अस्वीकृत',
+          ar: 'تم الرفض',
+          bn: 'বাতিল',
+          pt: 'Recusado',
+          ru: 'Отклонено',
+          ja: '拒否済み',
+          de: 'Abgelehnt'
+        },
+        'Profile Boost': {
+          en: 'Profile Boost',
+          es: 'Impulso de Perfil',
+          fr: 'Boost de Profil', // French translation
+          zh: '资料提升',
+          hi: 'प्रोफ़ाइल बूस्ट',
+          ar: 'تعزيز الملف الشخصي',
+          bn: 'প্রোফাইল বুস্ট',
+          pt: 'Impulso de Perfil',
+          ru: 'Усиление профиля',
+          ja: 'プロフィールブースト',
+          de: 'Profil-Boost'
+        }
+      };
+
+      return translationMap[key][currentLanguage] || key;
+    }
+
+    // Check if the user is a first-timer using local storage
+    if (localStorage.getItem('dealideFirstTime') === 'false') {
+      document.getElementById('onboardingScreen').style.display = 'none';
+    } else {
+      // Lock scroll when onboarding is active
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close Button Functionality
+    document.getElementById('closeButton').addEventListener('click', function() {
+      document.getElementById('onboardingScreen').style.display = 'none';
+      document.body.style.overflow = '';
+      localStorage.setItem('dealideFirstTime', 'false');
+      
+      // Attempt to close the window
+      window.close();
+
+      // Optional: If window.close() does not work, redirect to a specific page
+      // Uncomment the line below and replace 'main.html' with your desired URL
+      // window.location.href = 'main.html';
+    });
+
+    // Initialize Translations on Load
+    updateTranslations();
+  </script>
+</body>
+</html>
